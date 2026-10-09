@@ -18,89 +18,57 @@
         android:required="false" />
 
     <permission-group
-        android:name="moe.shizuku.manager.permission-group.API"
+        android:name="${applicationId}.shizuku.permission-group.API"
         android:description="@string/permission_group_description"
         android:icon="@drawable/ic_system_icon"
         android:label="@string/permission_group_label" />
 
     <permission
-        android:name="moe.shizuku.manager.permission.MANAGER"
+        android:name="${applicationId}.shizuku.permission.MANAGER"
         android:protectionLevel="signature" />
-    <uses-permission android:name="moe.shizuku.manager.permission.MANAGER" />
+    <uses-permission android:name="${applicationId}.shizuku.permission.MANAGER" />
 
     <permission
-        android:name="moe.shizuku.manager.permission.API_V23"
+        android:name="${applicationId}.shizuku.permission.API_V23"
         android:description="@string/permission_description"
         android:icon="@drawable/ic_system_icon"
         android:label="@string/permission_label"
-        android:permissionGroup="moe.shizuku.manager.permission-group.API"
+        android:permissionGroup="${applicationId}.shizuku.permission-group.API"
         android:protectionLevel="dangerous" />
     <uses-permission
-        android:name="moe.shizuku.manager.permission.API_V23"
+        android:name="${applicationId}.shizuku.permission.API_V23"
         tools:node="remove" />
 
-    <permission
-        android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-        android:protectionLevel="signature"
-        tools:node="remove" />
-    <uses-permission
-        android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-        tools:node="remove" />
-
-    <application
-        android:name=".ShizukuApplication"
-        android:allowBackup="true"
-        android:autoRevokePermissions="allowed"
-        android:banner="@drawable/ic_launcher"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:directBootAware="true"
-        android:enableOnBackInvokedCallback="true"
-        android:fullBackupContent="@xml/backup_descriptor"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/shizuku_app_name"
-        android:localeConfig="@xml/locales_config"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning"
-        tools:remove="android:appComponentFactory"
-        tools:targetApi="33">
+<application>
 
         <activity
-            android:name=".MainActivity"
-            android:banner="@mipmap/banner"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name="moe.shizuku.manager.MainActivity"
+            android:label="@string/shizuku_app_name"
+            android:exported="false" android:theme="@style/ShizukuAppTheme">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <!-- 2023.08.03: Google play enforces that apps with LEANBACK_LAUNCHER Activity must be uploaded with App Bundle format, -->
-                <!-- and possibly additional review steps. To avoid problems, remove it temporarily. -->
-                <!--<category android:name="android.intent.category.LEANBACK_LAUNCHER" />-->
-            </intent-filter>
         </activity>
         <activity
-            android:name=".management.ApplicationManagementActivity"
-            android:label="@string/home_app_management_title" />
+            android:name="moe.shizuku.manager.management.ApplicationManagementActivity"
+            android:label="@string/home_app_management_title" android:theme="@style/ShizukuAppTheme" />
         <activity
-            android:name=".adb.AdbPairingTutorialActivity"
-            android:label="@string/adb_pairing" />
+            android:name="moe.shizuku.manager.adb.AdbPairingTutorialActivity"
+            android:label="@string/adb_pairing" android:theme="@style/ShizukuAppTheme" />
         <activity
-            android:name=".shell.ShellTutorialActivity"
-            android:label="@string/home_terminal_title" />
+            android:name="moe.shizuku.manager.shell.ShellTutorialActivity"
+            android:label="@string/home_terminal_title" android:theme="@style/ShizukuAppTheme" />
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name="moe.shizuku.manager.settings.SettingsActivity"
             android:exported="false"
-            android:label="@string/settings_title">
+            android:label="@string/settings_title" android:theme="@style/ShizukuAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".starter.StarterActivity"
-            android:label="@string/starter" />
+            android:name="moe.shizuku.manager.starter.StarterActivity"
+            android:label="@string/starter" android:theme="@style/ShizukuAppTheme" />
         <activity
-            android:name=".authorization.RequestPermissionActivity"
+            android:name="moe.shizuku.manager.authorization.RequestPermissionActivity"
             android:directBootAware="true"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -113,7 +81,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".legacy.ShellRequestHandlerActivity"
+            android:name="moe.shizuku.manager.legacy.ShellRequestHandlerActivity"
             android:directBootAware="true"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -125,10 +93,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".legacy.LegacyIsNotSupportedActivity"
+            android:name="moe.shizuku.manager.legacy.LegacyIsNotSupportedActivity"
             android:excludeFromRecents="true"
             android:exported="true"
-            android:permission="moe.shizuku.manager.permission.API"
+            android:permission="${applicationId}.shizuku.permission.API"
             android:theme="@style/GrantPermissions">
             <intent-filter>
                 <action android:name="${applicationId}.intent.action.REQUEST_AUTHORIZATION" />
@@ -138,13 +106,13 @@
         </activity>
 
         <service
-            android:name=".adb.AdbPairingService"
+            android:name="moe.shizuku.manager.adb.AdbPairingService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="shortService" />
 
         <receiver
-            android:name=".receiver.BootCompleteReceiver"
+            android:name="moe.shizuku.manager.receiver.BootCompleteReceiver"
             android:directBootAware="true"
             android:enabled="true"
             android:exported="true">
@@ -157,7 +125,7 @@
         </receiver>
 
         <receiver
-            android:name=".receiver.ShizukuReceiver"
+            android:name="moe.shizuku.manager.receiver.ShizukuReceiver"
             android:directBootAware="true"
             android:enabled="true"
             android:exported="true"
@@ -168,7 +136,7 @@
         </receiver>
 
         <provider
-            android:name=".ShizukuManagerProvider"
+            android:name="moe.shizuku.manager.ShizukuManagerProvider"
             android:authorities="${applicationId}.shizuku"
             android:directBootAware="true"
             android:enabled="true"

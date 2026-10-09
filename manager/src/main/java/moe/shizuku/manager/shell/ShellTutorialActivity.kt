@@ -50,7 +50,16 @@ class ShellTutorialActivity : AppBarActivity() {
 
             fun writeToDocument(name: String) {
                 DocumentsContract.createDocument(contentResolver, doc, "application/octet-stream", name)?.runCatching {
-                    cr.openOutputStream(this)?.let { assets.open(name).copyTo(it) }
+                    cr.openOutputStream(this)?.use { output ->
+                        assets.open(name).use { input ->
+                            if (name == SH_NAME) {
+                                output.write(input.bufferedReader().readText()
+                                    .replace("ARCTRL_MANAGER_PACKAGE", packageName).toByteArray())
+                            } else {
+                                input.copyTo(output)
+                            }
+                        }
+                    }
                 }
             }
 

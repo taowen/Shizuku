@@ -98,7 +98,8 @@ abstract class HomeActivity : AppBarActivity() {
                 binding.sourceCode.movementMethod = LinkMovementMethod.getInstance()
                 binding.sourceCode.text = getString(
                     R.string.about_view_source_code,
-                    "<b><a href=\"https://github.com/RikkaApps/Shizuku\">GitHub</a></b>"
+                    "<b><a href=\"https://github.com/taowen/Shizuku\">Arctrl fork</a></b> · " +
+                        "<a href=\"https://github.com/RikkaApps/Shizuku\">Shizuku upstream</a> (Apache 2.0)"
                 ).toHtml()
                 binding.icon.setImageBitmap(
                     AppIconCache.getOrLoadBitmap(

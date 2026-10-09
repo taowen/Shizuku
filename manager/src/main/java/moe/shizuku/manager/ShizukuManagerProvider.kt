@@ -20,6 +20,7 @@ class ShizukuManagerProvider : ShizukuProvider() {
     }
 
     override fun onCreate(): Boolean {
+        ShizukuApplication.initialize(context!!.applicationContext as android.app.Application)
         disableAutomaticSuiInitialization()
         return super.onCreate()
     }

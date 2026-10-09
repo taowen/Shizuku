@@ -3,11 +3,11 @@ package moe.shizuku.manager.ktx
 import android.content.Context
 import android.os.Build
 import android.os.UserManager
-import moe.shizuku.manager.ShizukuApplication
+import android.app.Application
 
-val Context.application: ShizukuApplication
+val Context.application: Application
     get() {
-        return applicationContext as ShizukuApplication
+        return applicationContext as Application
     }
 
 fun Context.createDeviceProtectedStorageContextCompat(): Context {

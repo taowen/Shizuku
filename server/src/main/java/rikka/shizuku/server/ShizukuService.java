@@ -218,6 +218,12 @@ public class ShizukuService extends Service<ShizukuUserServiceManager, ShizukuCl
             }
         }
 
+        // The embedded manager is also a normal API client (Arctrl). Its UID
+        // is already verified against the installed manager package above.
+        if (isManager) {
+            clientManager.findClient(callingUid, callingPid).allowed = true;
+        }
+
         LOGGER.d("attachApplication: %s %d %d", requestPackageName, callingUid, callingPid);
 
         int replyServerVersion = ShizukuApiConstants.SERVER_VERSION;
@@ -446,7 +452,7 @@ public class ShizukuService extends Service<ShizukuUserServiceManager, ShizukuCl
                 } else if (pi.applicationInfo.metaData != null
                         && pi.applicationInfo.metaData.getBoolean("moe.shizuku.client.V3_SUPPORT", false)
                         && pi.requestedPermissions != null
-                        && ArraysKt.contains(pi.requestedPermissions, PERMISSION)) {
+                        && ArraysKt.contains(pi.requestedPermissions, ServerConstants.CLIENT_PERMISSION)) {
                     list.add(pi);
                 }
             }
@@ -481,7 +487,7 @@ public class ShizukuService extends Service<ShizukuUserServiceManager, ShizukuCl
                 if (pi == null || pi.requestedPermissions == null)
                     continue;
 
-                if (ArraysKt.contains(pi.requestedPermissions, PERMISSION)) {
+                if (ArraysKt.contains(pi.requestedPermissions, ServerConstants.CLIENT_PERMISSION)) {
                     sendBinderToUserApp(binder, pi.packageName, userId);
                 }
             }

@@ -31,7 +31,8 @@
 #define EXIT_FATAL_KILL 9
 #define EXIT_FATAL_BINDER_BLOCKED_BY_SELINUX 10
 
-#define PACKAGE_NAME "moe.shizuku.privileged.api"
+#define PACKAGE_NAME "com.taowen.arctrl"
+static std::string manager_package = PACKAGE_NAME;
 #define SERVER_NAME "shizuku_server"
 #define SERVER_CLASS_PATH "rikka.shizuku.server.ShizukuService"
 
@@ -97,6 +98,7 @@ v_current = (uintptr_t) v + v_size - sizeof(char *); \
 
     ARG(argv)
     ARG_PUSH(argv, "/system/bin/app_process")
+    ARG_PUSH_FMT(argv, "-Darctrl.shizuku.manager=%s", manager_package.c_str())
     ARG_PUSH_FMT(argv, "-Djava.class.path=%s", dex_path)
     ARG_PUSH_FMT(argv, "-Dshizuku.library.path=%s", lib_path)
     ARG_PUSH_DEBUG_VM_PARAMS(argv)
@@ -184,6 +186,9 @@ static int switch_cgroup() {
 int main(int argc, char *argv[]) {
     std::string apk_path;
     for (int i = 0; i < argc; ++i) {
+        if (strncmp(argv[i], "--manager-package=", 18) == 0) manager_package = argv[i] + 18;
+    }
+    for (int i = 0; i < argc; ++i) {
         if (strncmp(argv[i], "--apk=", 6) == 0) {
             apk_path = argv[i] + 6;
         }
@@ -255,7 +260,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (apk_path.empty()) {
-        auto f = popen("pm path " PACKAGE_NAME, "r");
+        auto f = popen(("pm path " + manager_package).c_str(), "r");
         if (f) {
             char line[PATH_MAX]{0};
             fgets(line, PATH_MAX, f);

@@ -7,7 +7,7 @@ object Starter {
 
     private val starterFile = File(application.applicationInfo.nativeLibraryDir, "libshizuku.so")
 
-    val userCommand: String = starterFile.absolutePath
+    val userCommand: String = "${starterFile.absolutePath} --manager-package=${application.packageName}"
 
     val adbCommand = "adb shell $userCommand"
 

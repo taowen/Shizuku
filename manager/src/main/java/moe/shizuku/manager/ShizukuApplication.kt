@@ -1,7 +1,6 @@
 package moe.shizuku.manager
 
 import android.app.Application
-import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import com.topjohnwu.superuser.Shell
@@ -10,11 +9,20 @@ import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.core.util.BuildUtils.atLeast30
 import rikka.material.app.LocaleDelegate
 
-lateinit var application: ShizukuApplication
+lateinit var application: Application
 
 class ShizukuApplication : Application() {
 
     companion object {
+
+        @JvmStatic
+        fun initialize(host: Application) {
+            if (::application.isInitialized) return
+            application = host
+            ShizukuSettings.initialize(host)
+            LocaleDelegate.defaultLocale = ShizukuSettings.getLocale()
+            AppCompatDelegate.setDefaultNightMode(ShizukuSettings.getNightMode())
+        }
 
         init {
             logd("ShizukuApplication", "init")
@@ -29,16 +37,10 @@ class ShizukuApplication : Application() {
         }
     }
 
-    private fun init(context: Context?) {
-        ShizukuSettings.initialize(context)
-        LocaleDelegate.defaultLocale = ShizukuSettings.getLocale()
-        AppCompatDelegate.setDefaultNightMode(ShizukuSettings.getNightMode())
-    }
-
     override fun onCreate() {
         super.onCreate()
-        application = this
-        init(this)
+        initialize(this)
+
     }
 
 }

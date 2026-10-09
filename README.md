@@ -1,5 +1,24 @@
 # Shizuku
 
+## Arctrl embedded fork
+
+This fork supplies **Arctrl Privileged Service**, embedded in Arctrl rather than
+installed as the official Shizuku app. Initialize the nested `api` submodule.
+Arctrl includes `embedded/` as a Gradle composite build and consumes its manager
+Android library; the original standalone application build is not the supported
+distribution path. Root, wireless ADB pairing/start, computer ADB start, app
+authorization, UserService, rish and manager settings retain upstream code.
+
+The starter receives `--manager-package=<Arctrl application id>` so debug and
+release use their own provider, permissions and grant/config file. Existing SDK
+clients are discovered through the original SDK metadata/permission names, but
+authorization uses server Binder records, not the official manager's Android
+runtime permissions. No Android 17-specific changes are included.
+
+Apache-2.0 licenses and attribution are bundled as `shizuku-*-LICENSE.txt` and
+`shizuku-NOTICE.txt` assets. Upstream launcher artwork is not packaged, and the
+derivative does not use upstream's application id or declare its permissions.
+
 ## Background
 
 When developing apps that requires root, the most common method is to run some commands in the su shell. For example, there is an app that uses the `pm enable/disable` command to enable/disable components.

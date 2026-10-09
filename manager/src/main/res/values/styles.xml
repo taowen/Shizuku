@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.Light" />
+    <style name="ShizukuAppTheme" parent="Theme.Light" />
 
     <style name="Card">
         <item name="android:duplicateParentState">true</item>
@@ -49,7 +49,7 @@
         <item name="android:backgroundTintMode">src_in</item>
     </style>
 
-    <style name="GrantPermissions" parent="@style/AppTheme">
+    <style name="GrantPermissions" parent="@style/ShizukuAppTheme">
         <item name="android:colorBackground">?colorBackgroundFloating</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
 

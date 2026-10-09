@@ -1,0 +1,6 @@
+Arctrl bundles a modified Shizuku manager and server.
+Upstream: https://github.com/RikkaApps/Shizuku
+Maintained fork: https://github.com/taowen/Shizuku
+Copyright original Shizuku contributors, licensed under Apache License 2.0.
+Integration changes copyright 2026 Arctrl contributors.
+Shizuku-API is licensed under the MIT License (see shizuku-api-LICENSE.txt).

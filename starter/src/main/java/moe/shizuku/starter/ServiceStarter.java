@@ -53,7 +53,7 @@ public class ServiceStarter {
     public static String commandForUserService(String appProcess, String managerApkPath, String token, String packageName, String classname, String processNameSuffix, int callingUid, boolean debug) {
         String processName = String.format("%s:%s", packageName, processNameSuffix);
         return String.format(Locale.ENGLISH, USER_SERVICE_CMD_FORMAT,
-                managerApkPath, appProcess, debug ? (" " + DEBUG_ARGS) : "",
+                managerApkPath, appProcess, " -Darctrl.shizuku.manager=" + System.getProperty("arctrl.shizuku.manager", "com.taowen.arctrl") + (debug ? (" " + DEBUG_ARGS) : ""),
                 processName,
                 token, packageName, classname, callingUid, debug ? (" " + "--debug-name=" + processName) : "");
     }
@@ -92,7 +92,7 @@ public class ServiceStarter {
     }
 
     private static boolean sendBinder(IBinder binder, String token, boolean retry) {
-        String packageName = "moe.shizuku.privileged.api";
+        String packageName = System.getProperty("arctrl.shizuku.manager", "com.taowen.arctrl");
         String name = packageName + ".shizuku";
         int userId = 0;
         IContentProvider provider = null;
